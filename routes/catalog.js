@@ -39,10 +39,10 @@ router.get('./books', book_controller.book_list);
 
 /// AUTHOR ROUTES ///
 
-// GET request for creating a Book. NOTE this must be used before the routes that use the ID
+// GET request for creating a Author. NOTE this must be used before the routes that use the ID
 router.get('/author/create', author_controller.author_create_get);
 
-// POST request for creating Book
+// POST request for creating Author
 router.post('/author/create', author_controller.author_create_post);
 
 // GET request to delete a author
@@ -66,10 +66,10 @@ router.get('./authors', author_controller.author_list);
 
 /// GENRE ROUTES ///
 
-// GET request for creating a Book. NOTE this must be used before the routes that use the ID
+// GET request for creating a Genre. NOTE this must be used before the routes that use the ID
 router.get('/genre/create', genre_controller.genre_create_get);
 
-// POST request for creating Book
+// POST request for creating Genre
 router.post('/genre/create', genre_controller.genre_create_post);
 
 // GET request to delete a genre
@@ -93,10 +93,10 @@ router.get('./genres', genre_controller.genre_list);
 
 /// BOOK INSTANCE ROUTES ///
 
-// GET request for creating a Book. NOTE this must be used before the routes that use the ID
+// GET request for creating a Book Instance. NOTE this must be used before the routes that use the ID
 router.get('/bookinstance/create', bookinstance_controller.bookinstance_create_get);
 
-// POST request for creating Book
+// POST request for creating Book Instance
 router.post('/bookinstance/create', bookinstance_controller.bookinstance_create_post);
 
 // GET request to delete a bookinstance
@@ -116,3 +116,5 @@ router.get('/bookinstance/:id', bookinstance_controller.bookinstance_detail);
 
 // GET request for list of bookinstances
 router.get('./bookinstances', bookinstance_controller.bookinstance_list);
+
+module.exports = router;
