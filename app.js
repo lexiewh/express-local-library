@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 // set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://admin0:Wrigley28!@cluster0.fblu1.mongodb.net/local-library?retryWrites=true&w=majority';
+var mongoDB = 'mongodb+srv://admin0:passwordpassword@cluster0.fblu1.mongodb.net/local_library?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
