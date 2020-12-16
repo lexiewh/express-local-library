@@ -1,8 +1,12 @@
-var genre = require('../models/genre');
+var Genre = require('../models/genre');
 
 // display list of all genres
 exports.genre_list = function(req, res) {
-    res.send('TODO: genre list')
+    Genre.find().sort([['name', 'ascending']]).exec(function (err, list_genres){
+        if (err) { return next(err); }
+        // successful, so render
+        res.render('genre_list', {title: 'Genre List', genre_list: list_genres})
+    })
 };
 
 // display detail page for a specific genre
