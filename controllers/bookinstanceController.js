@@ -1,8 +1,13 @@
-var bookinstance = require('../models/bookinstance');
+const { nextTick } = require('async');
+var BookInstance = require('../models/bookinstance');
 
 // display list of all bookinstances
 exports.bookinstance_list = function(req, res) {
-    res.send('TODO: bookinstance list')
+    BookInstance.find().populate('book').exec(function (err, list_bookinstances) { 
+        if (err) { return next(err); }
+        // successfull, so render
+        res.render('bookinstance_list', { title: 'Book Instances List', bookinstance_list: list_bookinstances});
+    });
 };
 
 // display detail page for a specific bookinstance
