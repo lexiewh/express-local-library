@@ -3,7 +3,7 @@ var async = require('async');
 var Book = require('../models/book');
 
 // display list of all authors
-exports.author_list = function(req, res) {
+exports.author_list = function(req, res, next) {
     Author.find().sort([['family_name', 'ascending']]).exec(function (err, list_authors) {
         if (err) { return next(err); }
         // successful, so render
