@@ -30,12 +30,34 @@ exports.index = function(req, res) {
 
 // display list of all books
 exports.book_list = function(req, res) {
-    res.send('TODO: book list')
+    Book.find({}, 'title author').populate('author').exec(function (err, list_books) {
+        if (err) { return next(err); }
+        // successful, so render
+        res.render('book_list', { title: 'Book List', book_list: list_books });
+    });
 };
 
 // display detail page for a specific book
-exports.book_detail = function(req, res) {
-    res.send('TODO: book detail: ' + req.params.id)
+exports.book_detail = function(req, res, next) {
+    async.parallel({
+        book: function(callback) {
+
+            Book.findById(req.params.id).populate('author').populate('genre').exec(callback);
+        },
+        book_instance: function(callback) {
+            BookInstance.find({ 'book': req.params.id }).exec(callback);
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.book == null) {
+            // no results
+            var err = new Error('Book not found');
+            err.status = 404;
+            return next(err);
+        }
+        // successful, so render
+        res.render ('book_detail', { title: results.book.title, book: results.book, book_instances: results.book_instance } );
+    })
 };
 
 // display book create form on GET
