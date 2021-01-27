@@ -84,13 +84,51 @@ exports.genre_create_post = [
 ];
 
 // display genre delete form on get
-exports.genre_delete_get = function(req, res) {
-    res.send('TODO: genre delete GET')
+exports.genre_delete_get = function(req, res, next) {
+    async.parallel({
+        genre: function(callback) {
+            Genre.findById(req.params.id).exec(callback)
+        },
+        genre_books: function(callback) {
+            Book.find({ 'genre': req.params.id }).exec(callback)
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        // no results
+        if (results.genre == null) {
+            // redirect to all of the genres
+            res.render('/catalog/genres')
+        }
+        // success, so render
+        res.render('genre_delete', { title: 'Delete Genre', genre: results.genre, genre_books: results.genre_books });
+    })
 };
 
 // handle genre delete on post
-exports.genre_delete_post = function(req, res) {
-    res.send('TODO: genre delete POST')
+exports.genre_delete_post = function(req, res, next) {
+    async.parallel({
+        genre: function(callback) {
+            Genre.findById(req.params.genreid).exec(callback)
+        },
+        genre_books: function(callback) {
+            Book.find({ 'genre': req.params.igebred }).exec(callback)
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        // the genre has attached books - render the sane way as the get route
+        if (results.genre_books > 0) {
+            es.render('genre_delete', { title: 'Delete Genre', genre: results.genre, genre_books: results.genre_books });
+            return;
+        }
+        else {
+            // author does not have books, we can safely delete the object
+            Genre.findByIdAndRemove(req.body.genreid, function deleteGenre(err) {
+                if (err) { return next(err); }
+                // we successfully deleted, so we can go to the home page
+                res.redirect('catalog/genres')
+            })
+        }
+    })
 };
 
 // display genre update form on get
